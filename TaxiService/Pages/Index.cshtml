@@ -1,0 +1,71 @@
+﻿@page
+@model IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+
+<body>
+        <td rowspan="9" valign="top"> <h3> Waiting Orders </h3>
+                                      <table>
+                                          <tr>
+                                              <td><label>OrderDate&nbsp;&nbsp;</label></td>
+                                              <td><label>OrderAddressSource&nbsp;&nbsp;</label></td>
+                                              <td><label>OrderAddressDestination&nbsp;&nbsp;</label></td>
+                                          </tr>
+                                          @foreach (var order in Model.Order)
+                                          {
+                                              <tr>
+                                                  <td>@order.OrderDate&nbsp;&nbsp;</td>
+                                                  <td>@order.OrderAddressSource&nbsp;&nbsp;</td>
+                                                  <td>@order.OrderAddressDestination&nbsp;&nbsp;</td>
+                                                  <td>
+                                                      <form method="post">
+                                                          <a asp-page="OrderWaiting" asp-route-id="@order.OrderId">OrderWaiting</a>
+                                                      </form>
+
+                                                  </td>
+                                              </tr>
+                                          }
+                                      </table>
+                </td>
+                <td> <h3>Free Cars</h3>
+                     <table>
+                         <tr>
+                             <td><label>CarModel&nbsp;&nbsp;</label></td>
+                             <td><label>CarID&nbsp;&nbsp;</label></td>
+                             <td><label>CarNumber&nbsp;&nbsp;</label></td>
+                         </tr>
+                         @foreach (var carfree in Model.CarFree)
+                         {
+                             <tr>
+                                 <td>@carfree.CarModel&nbsp;&nbsp;</td>
+                                 <td>@carfree.CarID&nbsp;&nbsp;</td>
+                                 <td>@carfree.CarNumber&nbsp;&nbsp;</td>
+                             </tr>
+                         }
+                     </table>
+                </td>
+            </tr>
+            <tr>
+                <td> <h3>Cars in Orders</h3>
+                     <table>
+                         <tr>
+                             <td><label>CarModel&nbsp;&nbsp;</label></td>
+                             <td><label>CarID&nbsp;&nbsp;</label></td>
+                             <td><label>CarNumber&nbsp;&nbsp;</label></td>
+                         </tr>
+                         @foreach (var carnotfree in Model.CarNotFree)
+                         {
+                             <tr>
+                                 <td>@carnotfree.CarModel&nbsp;&nbsp;</td>
+                                 <td>@carnotfree.CarID&nbsp;&nbsp;</td>
+                                 <td>@carnotfree.CarNumber&nbsp;&nbsp;</td>
+                             </tr>
+                         }
+                     </table>
+                </td>
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model TaxiService.Pages.CarModel
+@{ Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html>
+<body>
+            <td rowspan="9" valign="top">
+                <h3> Car </h3>
+                <form method="POST">
+                    <div asp-validation-summary="All"></div>
+                    <input asp-for="Car.CarID" type="hidden" />
+                    <div>
+                        <label>CarModel</label>
+                        <div>
+                            <input asp-for="Car.CarModel" />
+                            <span asp-validation-for="Car.CarModel"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label>CarNumber</label>
+                        <div>
+                            <input asp-for="Car.CarNumber" />
+                            <span asp-validation-for="Car.CarNumber"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label>CarDriverFIO</label>
+                        <div>
+                            <input asp-for="Car.CarDriverFIO" />
+                            <span asp-validation-for="Car.CarDriverFIO"></span>
+                        </div>
+                    </div>
+                    <div>
+                        @if (@Model.Car is null){
+                        <input type="submit" value="Create" />
+                        }
+                        else
+                        {
+                        <input type="submit" value="Save" />
+                       }
+                    </div>
+                </form>
+            </td>
+
+</body>
+</html>

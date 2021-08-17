@@ -1,0 +1,43 @@
+﻿@page
+@model CarsModel
+@{
+Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Cars</title>
+</head>
+    <body>
+                <td rowspan="9" valign="top">
+                    <h3> Cars </h3>
+                    <table>
+                        <tr><td><label>CarModel&nbsp;&nbsp;</label></td>
+                        <td><label>CarID&nbsp;&nbsp;</label></td>
+                        <td><label>CarNumber&nbsp;&nbsp;</label></td></tr>
+                        @foreach (var car in Model.Car)
+                        {
+                        <tr>
+                            <td>@car.CarModel &nbsp;&nbsp; </td>
+                            <td>@car.CarID &nbsp;&nbsp;</td>
+                            <td>@car.CarNumber &nbsp;&nbsp;</td>
+                            <td>
+                                <form method="post">
+                                    <a asp-page="Car" asp-route-id="@car.CarID">Edit</a>
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                        <tr>
+                            <td>
+                                <form method="post">
+                                    <a asp-page="Car" asp-route-id="-1">New</a>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+    </body>
+</html>

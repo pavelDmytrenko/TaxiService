@@ -1,0 +1,56 @@
+﻿@page
+@model TaxiService.Pages.OrdersModel
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+</head>
+<body>
+            <td rowspan="9" valign="top">
+                <h3> Orders </h3>
+                <table>
+                    <tr><td><label>OrderAddressDestination&nbsp;&nbsp;</label></td>
+                    <td><label>OrderAddressSource&nbsp;&nbsp;</label></td>
+                    <td><label>OrderDate&nbsp;&nbsp;</label></td>
+                    <td><label>OrderComplateDate&nbsp;&nbsp;</label></td>
+                    <td><label>OrderStatus&nbsp;&nbsp;</label></td></tr>
+                    @foreach (var order in Model.Order)
+                    {
+                        <tr>
+                            <td>@order.OrderAddressDestination&nbsp;&nbsp;</td>
+                            <td>@order.OrderAddressSource&nbsp;&nbsp;</td>
+                            <td>@order.OrderDate&nbsp;&nbsp;</td>
+                            <td>@order.OrderComplateDate&nbsp;&nbsp;</td>
+                            <td>@order.OrderStatus&nbsp;&nbsp;</td>
+                            <td>
+                                @if (order.OrderStatus == "in progress")
+                                {
+                                    <form method="post">
+                                        <a asp-page="OrderProgress" asp-route-id="@order.OrderId">OrderProgress</a>
+                                    </form>
+                                }
+                                else if (order.OrderStatus == "waiting")
+                                {
+                                    <form method="post">
+                                        <a asp-page="OrderWaiting" asp-route-id="@order.OrderId">OrderWaiting</a>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <form method="post">
+                                <a asp-page="Order" asp-route-id="-1">New</a>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+</body>
+</html>

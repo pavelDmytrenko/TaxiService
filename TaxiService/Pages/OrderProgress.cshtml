@@ -1,0 +1,30 @@
+﻿@page "{id:int}"
+@model TaxiService.Pages.OrderProgressModel
+@{ Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OrderProgress</title>
+</head>
+<body>
+            <td rowspan="9" valign="top">
+                <h3>
+                    Order Progress
+                </h3>
+                <form method="POST">
+                    <div asp-validation-summary="All"></div>
+                    <input asp-for="Order.OrderId" type="hidden" />
+                    <div>
+                        <label>OrderComplateDate</label>
+                        <div>
+                            <input asp-for="Order.OrderComplateDate" />
+                            <span asp-validation-for="Order.OrderComplateDate"></span>
+                        </div>
+                    </div>
+                    <div><input type="submit" value="SET ComplateDate" /></div>
+                </form>
+            </td>
+
+</body>
+</html>

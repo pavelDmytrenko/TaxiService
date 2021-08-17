@@ -1,0 +1,54 @@
+﻿@page
+@model TaxiService.Pages.OrderWaitingModel
+@{ Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html>
+
+<body>
+        <form method="POST">
+            <div asp-validation-summary="All"></div>
+            <input asp-for="Order.OrderId" type="hidden" />
+            <td valign="top">
+                <h3>
+                    Order Waiting
+                </h3>
+
+                <div>
+                    <label>OrderDate</label>
+                    <div>
+                        <input asp-for="Order.OrderDate" readonly="readonly" />
+                    </div>
+                </div>
+                <div>
+                    <label>OrderAddressDestination</label>
+                    <div>
+                        <input asp-for="Order.OrderAddressDestination" readonly="readonly" />
+                    </div>
+                </div>
+                <div>
+                    <label>OrderAddressSource</label>
+                    <div>
+                        <input asp-for="Order.OrderAddressSource" readonly="readonly" />
+                    </div>
+                </div>
+            </td>
+            <td valign="top">
+                <h3>
+                    Car Free
+                </h3>
+                @foreach (var car in Model.Car)
+                {
+                    <input id="@car.CarID" type="radio" name="carselectedID" value="@car.CarID" ><label>@car.CarModel with number @car.CarNumber</label>
+                    <br />
+                }
+
+            </td>
+        <tr>
+            <td><div><input type="submit" value="SET OrderProcess" asp-page-handler="Submit" /></div></td>
+            <td><div><input asp-page-handler="Delete" type="submit" value="Delete Order" style="bottom:0" /></div></td>
+        </tr>
+        </form>
+
+</body>
+</html>

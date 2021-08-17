@@ -1,0 +1,42 @@
+﻿@page "{id:int}"
+@model TaxiService.Pages.OrderModel
+@{ Layout = "_layout";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Order</title>
+</head>
+<body>
+            <td rowspan="9" valign="top">
+                <h3> New Order </h3>
+                <form method="POST">
+                    <div asp-validation-summary="All"></div>
+                    <input asp-for="Order.OrderId" type="hidden" />
+                    <div>
+                        <label>OrderDate</label>
+                        <div>
+                            <input asp-for="Order.OrderDate" />
+                            <span asp-validation-for="Order.OrderDate"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label>OrderAddressDestination</label>
+                        <div>
+                            <input asp-for="Order.OrderAddressDestination" />
+                            <span asp-validation-for="Order.OrderAddressDestination"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label>OrderAddressSource</label>
+                        <div>
+                            <input asp-for="Order.OrderAddressSource" />
+                            <span asp-validation-for="Order.OrderAddressSource"></span>
+                        </div>
+                    </div>
+                        <div><input type="submit" value="Create" /></div>
+               </form>
+            </td>
+
+</body>
+</html>
