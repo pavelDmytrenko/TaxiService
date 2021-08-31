@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TaxiService.BusinessLayer;
+using TaxiService.DataLayer;
 
 namespace TaxiService.Pages
 {
@@ -11,12 +13,14 @@ namespace TaxiService.Pages
     { 
 
         private readonly TaxiContext _context;
+        private readonly BusinessLogic _busLogic;
         [BindProperty]
         public Order Order { get; set; }
         public List<Car> Car { get; set; }
         public OrderWaitingModel(TaxiContext db)
         {
             _context = db;
+            _busLogic = new BusinessLogic(_context);
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -26,29 +30,20 @@ namespace TaxiService.Pages
             return NotFound();
             }
 
-        Order = await _context.Order.FindAsync(id);
-        Car = _context.Car.GroupJoin(_context.Order, c => c.CarID, o => o.Car.CarID, (c, o) => new { c, o }).SelectMany(x => x.o.DefaultIfEmpty(), (car, order)
-                  => new { car.c, ProductName = order == null ? -1 : order.OrderId }).Where(o => o.ProductName == -1).Select(c => c.c).ToList(); //_context.Car.ToList();
+            Order = await _busLogic.GetOrder(id);
+            Car = _busLogic.GetCar(1);
+
             return Page();
         }
         public async Task<IActionResult> OnPostSubmit(int carselectedID)
         {
-            var car = await _context.Car.FindAsync(carselectedID);
-            var orderDb = await _context.Order.FindAsync(Order.OrderId);
-            orderDb.Car = car;
-            orderDb.OrderStatus = "in progress";
-            await _context.SaveChangesAsync();
+            await _busLogic.AddOrder(Order, carselectedID);
             return RedirectToPage("Orders");
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            var order = await _context.Order.FindAsync(Order.OrderId);
-            if (order != null)
-                {
-                    _context.Order.Remove(order);
-                    await _context.SaveChangesAsync();
-                }
+            await _busLogic.DelOrder(Order);
             return RedirectToPage("Orders");
         }
 
