@@ -7,18 +7,16 @@ namespace TaxiService.Pages
 {
     public class OrdersModel : PageModel
     {
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly IOrderService _orderService;
         public List<Order> Order{ get; set; }
 
-        public OrdersModel(TaxiContext db)
+        public OrdersModel(IOrderService orderService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _orderService = orderService;
         }
         public void OnGet()
         {
-            Order = _busLogic.GetOrder(3);
+            Order = _orderService.GetOrder(3);
         }
     }
 }

@@ -12,22 +12,22 @@ namespace TaxiService.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly IOrderService _orderService;
+        private readonly ICarService _carService;
         public List<Car> CarFree { get; set; }
         public List<Car> CarNotFree { get; set; }
         public List<Order> Order { get; set; }
-        public IndexModel(TaxiContext db)
+        public IndexModel(ICarService carService,IOrderService orderService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _orderService = orderService;
+            _carService = carService;
         }
 
         public void OnGet()
         {
-            CarNotFree = _busLogic.GetCar(2);
-            CarFree= _busLogic.GetCar(1);
-            Order = _busLogic.GetOrder(2);
+            CarNotFree = _carService.GetCar(2);
+            CarFree= _carService.GetCar(1);
+            Order = _orderService.GetOrder(2);
         }
     }
 }

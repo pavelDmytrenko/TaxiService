@@ -11,18 +11,16 @@ namespace TaxiService.Pages
 {
     public class CarsModel : PageModel
     {
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly ICarService _carService;
         public List<Car> Car { get; set; }
 
-        public CarsModel(TaxiContext db)
+        public CarsModel(ICarService carService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _carService = carService;
         }
         public void OnGet()
         {
-            Car = _busLogic.GetCar(3);
+            Car = _carService.GetCar(3);
         }
     }
 }

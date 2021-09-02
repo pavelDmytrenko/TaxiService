@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace TaxiService.DataLayer
 {
@@ -6,5 +7,7 @@ namespace TaxiService.DataLayer
         {
             DbSet<Car> Car { get; set; }
             DbSet<Order> Order { get; set; }
-        }
+
+        Task SaveChanges();
+    }
 }

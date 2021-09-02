@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TaxiService.BusinessLayer;
 using TaxiService.DataLayer;
 
 namespace TaxiService
@@ -22,7 +23,14 @@ namespace TaxiService
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TaxiContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<IDbContext, TaxiContext>();
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICarService, CarService>();
             services.AddRazorPages();
+            // services.AddTransient<ICarRepository, CarRepository>();
+            //services.AddTransient<IOrderRepository, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

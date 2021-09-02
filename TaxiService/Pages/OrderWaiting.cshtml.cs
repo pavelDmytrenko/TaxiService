@@ -10,17 +10,17 @@ using TaxiService.DataLayer;
 namespace TaxiService.Pages
 {
     public class OrderWaitingModel : PageModel
-    { 
+    {
 
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly IOrderService _orderService;
+        private readonly ICarService _carService;
         [BindProperty]
         public Order Order { get; set; }
         public List<Car> Car { get; set; }
-        public OrderWaitingModel(TaxiContext db)
+        public OrderWaitingModel(IOrderService orderService, ICarService carService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _orderService = orderService;
+            _carService = carService;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -30,20 +30,20 @@ namespace TaxiService.Pages
             return NotFound();
             }
 
-            Order = await _busLogic.GetOrder(id);
-            Car = _busLogic.GetCar(1);
+            Order = await _orderService.GetOrder(id);
+            Car = _carService.GetCar(1);
 
             return Page();
         }
         public async Task<IActionResult> OnPostSubmit(int carselectedID)
         {
-            await _busLogic.AddOrder(Order, carselectedID);
+            await _orderService.AddOrder(Order, carselectedID);
             return RedirectToPage("Orders");
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            await _busLogic.DelOrder(Order);
+            await _orderService.DelOrder(Order);
             return RedirectToPage("Orders");
         }
 

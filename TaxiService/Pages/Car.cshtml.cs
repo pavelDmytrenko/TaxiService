@@ -8,15 +8,13 @@ namespace TaxiService.Pages
 {
     public class CarModel : PageModel
     {
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly ICarService _carService;
         [BindProperty]
         public Car Car { get; set; }
 
-        public CarModel(TaxiContext db)
+        public CarModel(ICarService carService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _carService = carService;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -25,13 +23,13 @@ namespace TaxiService.Pages
             {
                 return NotFound();
             }
-            Car = await _busLogic.GetCar(id);
+            Car = await _carService.GetCar(id);
 
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            await _busLogic.AddCar(Car);
+            await _carService.AddCar(Car);
             return RedirectToPage("Cars");
             
         }

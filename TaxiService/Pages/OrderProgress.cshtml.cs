@@ -11,15 +11,13 @@ namespace TaxiService.Pages
 {
     public class OrderProgressModel : PageModel
     {
-        private readonly TaxiContext _context;
-        private readonly BusinessLogic _busLogic;
+        private readonly IOrderService _orderService;
         [BindProperty]
         public Order Order { get; set; }
 
-        public OrderProgressModel(TaxiContext db)
+        public OrderProgressModel(IOrderService orderService)
         {
-            _context = db;
-            _busLogic = new BusinessLogic(_context);
+            _orderService = orderService;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -28,12 +26,12 @@ namespace TaxiService.Pages
             {
                 return NotFound();
             }
-            Order = await _busLogic.GetOrder(id);
+            Order = await _orderService.GetOrder(id);
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            await _busLogic.AddOrder(Order);
+            await _orderService.AddOrder(Order);
             return RedirectToPage("Orders");
         }
 
