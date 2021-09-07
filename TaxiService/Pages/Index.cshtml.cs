@@ -25,9 +25,9 @@ namespace TaxiService.Pages
 
         public void OnGet()
         {
-            CarNotFree = _carService.GetCar(2);
-            CarFree= _carService.GetCar(1);
-            Order = _orderService.GetOrder(2);
+            CarNotFree = _carService.GetNotFreeCars();
+            CarFree= _carService.GetFreeCars();
+            Order = _orderService.GetWaitingOrders();
         }
     }
 }

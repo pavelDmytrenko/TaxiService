@@ -31,7 +31,7 @@ namespace TaxiService.Pages
             }
 
             Order = await _orderService.GetOrder(id);
-            Car = _carService.GetCar(1);
+            Car = _carService.GetFreeCars();
 
             return Page();
         }

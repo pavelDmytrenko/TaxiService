@@ -27,13 +27,13 @@
                             <td>@order.OrderComplateDate&nbsp;&nbsp;</td>
                             <td>@order.OrderStatus&nbsp;&nbsp;</td>
                             <td>
-                                @if (order.OrderStatus == "in progress")
+                                @if (order.OrderStatus == ((int)OrdersModel.OrderStatus.InProgress) )
                                 {
                                     <form method="post">
                                         <a asp-page="OrderProgress" asp-route-id="@order.OrderId">OrderProgress</a>
                                     </form>
                                 }
-                                else if (order.OrderStatus == "waiting")
+                                else if (order.OrderStatus == ((int)OrdersModel.OrderStatus.Waitnig))
                                 {
                                     <form method="post">
                                         <a asp-page="OrderWaiting" asp-route-id="@order.OrderId">OrderWaiting</a>

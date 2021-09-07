@@ -11,6 +11,12 @@ namespace TaxiService.DataLayerTest
 {
     public class OrderRepositoryTest
     {
+        public enum OrderStatus
+        {
+            InProgress = 1,
+            Waitnig = 2,
+            Done = 3
+        }
         public List<Order> GetTestOrders()
         {
             var orders = new List<Order>
@@ -19,7 +25,7 @@ namespace TaxiService.DataLayerTest
                                    OrderComplateDate = Convert.ToDateTime("13/08/2021 11:00"),
                                    OrderAddressSource = "Simi Prakhovykh, 54",
                                    OrderAddressDestination = "Kudryashova, 14-B",
-                                   OrderStatus = "done",
+                                   OrderStatus = ((int)OrderStatus.Done),
                                    Car = new Car
                                    {
                                        CarNumber = "Car1",
@@ -32,7 +38,7 @@ namespace TaxiService.DataLayerTest
                                OrderComplateDate = Convert.ToDateTime("13/08/2021 09:00"),
                                OrderAddressSource = "Simi Prakhovykh, 54",
                                OrderAddressDestination = "Kudryashova, 14-B",
-                               OrderStatus = "done",
+                               OrderStatus = ((int)OrderStatus.Done),
                                Car = new Car
                                {
                                    CarNumber = "Car2",
@@ -46,7 +52,7 @@ namespace TaxiService.DataLayerTest
                 OrderComplateDate = Convert.ToDateTime("13/08/2021 9:30"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "done",
+                OrderStatus = ((int)OrderStatus.Done),
                 Car = new Car
                 {
                     CarNumber = "Car3",
@@ -59,14 +65,14 @@ namespace TaxiService.DataLayerTest
                 OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "waiting"
+                OrderStatus = ((int)OrderStatus.Waitnig)
             },
             new Order
             {
                 OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "in progress",
+                OrderStatus = ((int)OrderStatus.InProgress),
                 Car = new Car
                 {
                     CarNumber = "Car4",
@@ -79,7 +85,7 @@ namespace TaxiService.DataLayerTest
                 OrderDate = Convert.ToDateTime("13/08/2021 12:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "in progress",
+                OrderStatus = ((int)OrderStatus.InProgress),
                 Car = new Car
                 {
                     CarNumber = "Car5",
@@ -93,7 +99,7 @@ namespace TaxiService.DataLayerTest
                 OrderComplateDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "done",
+                OrderStatus = ((int)OrderStatus.Done),
                 Car = new Car
                 {
                     CarNumber = "Car1",

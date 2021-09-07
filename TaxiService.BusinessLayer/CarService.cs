@@ -14,49 +14,35 @@ namespace TaxiService.BusinessLayer
         {
             _carContext = dbContext;
         }
-        public Car Car { get; set; }
         public async Task<Car> GetCar(int? id)
         {
-            if (id == -1)
-            {
-                Car = new Car { CarNumber = "", CarModel = "", CarDriverFIO = "" };
-            }
-            Car = await _carContext.GetCarById(id);
-            return Car;
+            return await _carContext.GetCarById(id);
         }
-        /*         findStatus
-        free cars -    1
-        nofree cars -  2
-        all cars    -  3
-          */
-        public List<Car> GetCar(int findStatus)
+        public List<Car> GetFreeCars()
         {
-            switch (findStatus)
-
-            {
-                case 1:
-                    return _carContext.GetFreeCar();
-
-                case 2:
-                    return _carContext.GetNotFreeCar();
-
-                case 3:
-                    return _carContext.GetCars();
-            }
-            return null;
+            return _carContext.GetFreeCars();
         }
+        public List<Car> GetNotFreeCars()
+        {
+            return _carContext.GetNotFreeCars();
+        }
+        public List<Car> GetAllCars()
+        {
+            return _carContext.GetCars();
+        }
+
         public async Task AddCar(Car car)
         {
-            var CarDb = await _carContext.GetCarById(car.CarID);
-            if (CarDb == null)
+            var carEntity = await _carContext.GetCarById(car.CarID);
+            if (carEntity == null)
             {
                 await _carContext.AddCar(car);
             }
             else
             {
-                CarDb.CarNumber = car.CarNumber;
-                CarDb.CarModel = car.CarModel;
-                CarDb.CarDriverFIO = car.CarDriverFIO;
+                carEntity.CarNumber = car.CarNumber;
+                carEntity.CarModel = car.CarModel;
+                carEntity.CarDriverFIO = car.CarDriverFIO;
                 await _carContext.SaveChanges();
             }
         }

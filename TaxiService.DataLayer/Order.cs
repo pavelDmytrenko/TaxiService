@@ -16,7 +16,7 @@ namespace TaxiService.DataLayer
         public string OrderAddressSource { get; set; }
         [Required]
         public string OrderAddressDestination { get; set; }
-        public string OrderStatus { get; set; }
+        public int OrderStatus { get; set; }
         public Car Car { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace TaxiService.DataLayer
 {
     public interface ICarRepository
     {
-        List<Car> GetFreeCar();
-        List<Car> GetNotFreeCar();
+        List<Car> GetFreeCars();
+        List<Car> GetNotFreeCars();
         List<Car> GetCars();
         Task<Car> GetCarById(int? id);
         Task AddCar(Car car);

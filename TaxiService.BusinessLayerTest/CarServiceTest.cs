@@ -53,17 +53,26 @@ namespace TaxiService.BusinessLayerTest
             };
             return cars;
         }
-        public CarService GetCarService()
-        {
-            var mock = new Mock<ICarRepository>();
-            mock.Setup(p => p.GetCars()).Returns(GetTestCars());
-            return new CarService(mock.Object);
-        }
         [Fact]
         public void BusinessLogicTestCountCars()
         {
-            var result = GetCarService().GetCar(3);
-            Assert.Equal(6, result.Count);
+            var mock = new Mock<ICarRepository>();
+            mock.Setup(p => p.GetCars()).Returns(GetTestCars());
+            Assert.Equal(6, new CarService(mock.Object).GetAllCars().Count);
+        }
+        [Fact]
+        public void BusinessLogicTestCountFreeCars()
+        {
+            var mock = new Mock<ICarRepository>();
+            mock.Setup(p => p.GetFreeCars()).Returns(GetTestCars());
+            Assert.Equal(6, new CarService(mock.Object).GetFreeCars().Count);
+        }
+        [Fact]
+        public void BusinessLogicTestCountNotFreeCars()
+        {
+            var mock = new Mock<ICarRepository>();
+            mock.Setup(p => p.GetNotFreeCars()).Returns(GetTestCars());
+            Assert.Equal(6, new CarService(mock.Object).GetNotFreeCars().Count);
         }
     }
 }

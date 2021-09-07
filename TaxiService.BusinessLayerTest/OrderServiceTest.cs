@@ -4,20 +4,27 @@ using System.Collections.Generic;
 using TaxiService.BusinessLayer;
 using TaxiService.DataLayer;
 using Xunit;
+using static TaxiService.BusinessLayer.OrderService;
 
 namespace TaxiService.BusinessLayerTest
 {
     public class OrderServiceTest
     {
+        public enum OrderStatus
+        {
+            InProgress = 1,
+            Waiting = 2,
+            Done = 3
+        };
         private List<Order> GetTestOrders()
         {
-            var orders = new List<Order>
+        var orders = new List<Order>
             {
                 new Order {OrderDate = Convert.ToDateTime("13/08/2021 10:00"),
                                    OrderComplateDate = Convert.ToDateTime("13/08/2021 11:00"),
                                    OrderAddressSource = "Simi Prakhovykh, 54",
                                    OrderAddressDestination = "Kudryashova, 14-B",
-                                   OrderStatus = "done",
+                                   OrderStatus = ((int)OrderStatus.Done),
                                    Car = new Car
                                    {
                                        CarNumber = "Car1",
@@ -30,7 +37,7 @@ namespace TaxiService.BusinessLayerTest
                                OrderComplateDate = Convert.ToDateTime("13/08/2021 09:00"),
                                OrderAddressSource = "Simi Prakhovykh, 54",
                                OrderAddressDestination = "Kudryashova, 14-B",
-                               OrderStatus = "done",
+                               OrderStatus = ((int)OrderStatus.Done),
                                Car = new Car
                                {
                                    CarNumber = "Car2",
@@ -44,7 +51,7 @@ namespace TaxiService.BusinessLayerTest
                 OrderComplateDate = Convert.ToDateTime("13/08/2021 9:30"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "done",
+                OrderStatus = ((int)OrderStatus.Done),
                 Car = new Car
                 {
                     CarNumber = "Car3",
@@ -57,14 +64,14 @@ namespace TaxiService.BusinessLayerTest
                 OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "waiting"
+                OrderStatus = ((int)OrderStatus.Waiting)
             },
             new Order
             {
                 OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "in progress",
+                OrderStatus = ((int)OrderStatus.InProgress),
                 Car = new Car
                 {
                     CarNumber = "Car4",
@@ -77,7 +84,7 @@ namespace TaxiService.BusinessLayerTest
                 OrderDate = Convert.ToDateTime("13/08/2021 12:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "in progress",
+                OrderStatus = ((int)OrderStatus.InProgress),
                 Car = new Car
                 {
                     CarNumber = "Car5",
@@ -91,7 +98,7 @@ namespace TaxiService.BusinessLayerTest
                 OrderComplateDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "done",
+                OrderStatus = ((int)OrderStatus.Done),
                 Car = new Car
                 {
                     CarNumber = "Car1",
@@ -111,7 +118,7 @@ namespace TaxiService.BusinessLayerTest
                 OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
                 OrderAddressSource = "Simi Prakhovykh, 54",
                 OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = "waiting"
+                OrderStatus = ((int)OrderStatus.Waiting)
             }};
             return orders;
         }
@@ -165,7 +172,7 @@ namespace TaxiService.BusinessLayerTest
             var mockCar = new Mock<ICarRepository>();
             mockOrder.Setup(p => p.GetOrder()).Returns(GetTestOrders());
             mockCar.Setup(p => p.GetCars()).Returns(GetTestCars());
-            Assert.Equal(7, new OrderService(mockOrder.Object, mockCar.Object).GetOrder(3).Count);
+            Assert.Equal(7, new OrderService(mockOrder.Object, mockCar.Object).GetOrders().Count);
         }
         [Fact]
         public void OrderServiceTestCountWaitingOrders()
@@ -174,7 +181,7 @@ namespace TaxiService.BusinessLayerTest
             var mockCar = new Mock<ICarRepository>();
             mockOrder.Setup(p => p.GetWaitingOrder()).Returns(GetTestWaitngOrders());
             mockCar.Setup(p => p.GetCars()).Returns(GetTestCars());
-            Assert.Equal(1, new OrderService(mockOrder.Object, mockCar.Object).GetOrder(2).Count);
+            Assert.Equal(1, new OrderService(mockOrder.Object, mockCar.Object).GetWaitingOrders().Count);
         }
     }
 }

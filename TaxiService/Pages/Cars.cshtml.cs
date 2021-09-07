@@ -20,7 +20,7 @@ namespace TaxiService.Pages
         }
         public void OnGet()
         {
-            Car = _carService.GetCar(3);
+            Car = _carService.GetAllCars();
         }
     }
 }

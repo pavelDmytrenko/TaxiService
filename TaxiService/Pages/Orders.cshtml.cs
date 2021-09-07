@@ -9,14 +9,19 @@ namespace TaxiService.Pages
     {
         private readonly IOrderService _orderService;
         public List<Order> Order{ get; set; }
-
+        public enum OrderStatus
+        {
+            InProgress = 1,
+            Waitnig = 2,
+            Done = 3
+        }
         public OrdersModel(IOrderService orderService)
         {
             _orderService = orderService;
         }
         public void OnGet()
         {
-            Order = _orderService.GetOrder(3);
+            Order = _orderService.GetOrders();
         }
     }
 }

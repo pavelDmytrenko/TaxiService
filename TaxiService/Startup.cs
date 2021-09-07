@@ -17,8 +17,6 @@ namespace TaxiService
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
@@ -29,8 +27,6 @@ namespace TaxiService
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICarService, CarService>();
             services.AddRazorPages();
-            // services.AddTransient<ICarRepository, CarRepository>();
-            //services.AddTransient<IOrderRepository, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -14,7 +14,6 @@ namespace TaxiService.Pages
         private readonly IOrderService _orderService;
         [BindProperty]
         public  Order Order { get; set; }
-
         public OrderModel(IOrderService orderService)
         {
             _orderService = orderService;
