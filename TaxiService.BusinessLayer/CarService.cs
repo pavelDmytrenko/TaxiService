@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,41 +10,42 @@ namespace TaxiService.BusinessLayer
 {
     public class CarService : ICarService
     {
-        private readonly ICarRepository _carContext;
+        private readonly ICarRepository _carRepository;
         public CarService(ICarRepository dbContext)
         {
-            _carContext = dbContext;
+            _carRepository = dbContext;
         }
-        public async Task<Car> GetCar(int? id)
+        public async Task<Car> GetCarAsync(int? id)
         {
-            return await _carContext.GetCarById(id);
+            return await _carRepository.GetCarByIdAsync(id);
         }
-        public List<Car> GetFreeCars()
+        public async Task<List<Car>> GetFreeCarsAsync()
         {
-            return _carContext.GetFreeCars();
+            return await _carRepository.Cars.Where(c => c.CarReady == true).ToListAsync();
         }
-        public List<Car> GetNotFreeCars()
+        public async Task<List<Car>> GetNotFreeCarsAsync()
         {
-            return _carContext.GetNotFreeCars();
+            return await _carRepository.Cars.Where(c => c.CarReady == false).ToListAsync();
         }
-        public List<Car> GetAllCars()
+        public async Task<List<Car>> GetAllCarsAsync()
         {
-            return _carContext.GetCars();
+            return await _carRepository.GetAllCarsAsync();
         }
 
-        public async Task AddCar(Car car)
+        public async Task AddCarAsync(Car car)
         {
-            var carEntity = await _carContext.GetCarById(car.CarID);
+            var carEntity = await _carRepository.GetCarByIdAsync(car.CarID);
             if (carEntity == null)
             {
-                await _carContext.AddCar(car);
+                await _carRepository.AddCarAsync(car);
             }
             else
             {
                 carEntity.CarNumber = car.CarNumber;
                 carEntity.CarModel = car.CarModel;
                 carEntity.CarDriverFIO = car.CarDriverFIO;
-                await _carContext.SaveChanges();
+                carEntity.CarReady = car.CarReady;
+                await _carRepository.SaveChangesAsync();
             }
         }
     }

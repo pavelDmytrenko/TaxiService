@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,40 +10,32 @@ namespace TaxiService.DataLayer
     public class OrderRepository : IOrderRepository
     {
         private readonly IDbContext _context;
-        public enum OrderStatus
-        {
-            Waitnig = 2,
-            Done = 3
-        }
+        public IQueryable<Order> Orders { get { return _context.Order; } }
+        public IQueryable<Car> Cars { get { return _context.Car; } }
         public OrderRepository(IDbContext dbContext)
         {
             _context = dbContext;
         }
-        public List<Order> GetWaitingOrder()
+        public async Task<List<Order>> GetOrderAsync()
         {
-            return _context.Order.Where(o => o.OrderStatus == ((int)OrderStatus.Waitnig)).ToList();
+            return await _context.Order.ToListAsync();
         }
 
-        public List<Order> GetOrder()
-        {
-            return _context.Order.ToList();
-        }
-
-        public async Task<Order> GetOrderById(int? id)
+        public async Task<Order> GetOrderByIdAsync(int? id)
         {
             return await _context.Order.FindAsync(id);
         }
-        public async Task AddOrder(Order order)
+        public async Task AddOrderAsync(Order order)
         {
             _context.Order.Add(order);
             await _context.SaveChanges();
         }
-        public async Task DelOrder(Order order)
+        public async Task DelOrderAsync(Order order)
         {
             _context.Order.Remove(order);
             await _context.SaveChanges();
         }
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChanges();
         }

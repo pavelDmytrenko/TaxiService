@@ -23,13 +23,13 @@ namespace TaxiService.Pages
             {
                 return NotFound();
             }
-            Car = await _carService.GetCar(id);
+            Car = await _carService.GetCarAsync(id);
 
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            await _carService.AddCar(Car);
+            await _carService.AddCarAsync(Car);
             return RedirectToPage("Cars");
             
         }

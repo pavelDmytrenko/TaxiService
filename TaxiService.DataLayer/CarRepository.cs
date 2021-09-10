@@ -8,38 +8,28 @@ namespace TaxiService.DataLayer
     public class CarRepository : ICarRepository
     {
         private readonly IDbContext _context;
-        public enum OrderStatus
-        {
-            Waitnig = 2,
-            Done = 3
-        }
+        public IQueryable<Car> Cars { get { return _context.Car; } }
+        public IQueryable<Order> Orders { get { return _context.Order; } }
         public CarRepository(IDbContext dbContext)
         {
             _context = dbContext;
         }
-        public List<Car> GetFreeCars()
+
+        public async Task<List<Car>> GetAllCarsAsync()
         {
-            return _context.Car.GroupJoin(_context.Order, c => c.CarID, o => o.Car.CarID, (c, o) => new { c, o }).SelectMany(x => x.o.DefaultIfEmpty(), (car, order)
-                    => new { car.c, ProductName = ((order == null)||(order.OrderStatus == ((int)OrderStatus.Done))) ? -1 : order.OrderId }).Where(o => o.ProductName == -1).Select(c => c.c).ToList();
+            return await _context.Car.ToListAsync();
         }
-        public List<Car> GetNotFreeCars()
-        {
-            return _context.Order.Where(o=>o.OrderStatus != ((int)OrderStatus.Done)).Join(_context.Car, o => o.Car.CarID, c => c.CarID, (o, c) => o.Car).ToList();
-        }
-        public List<Car> GetCars()
-        {
-            return _context.Car.ToList();
-        }
-        public async Task<Car> GetCarById(int? id)
+        public async Task<Car> GetCarByIdAsync(int? id)
         {
             return await _context.Car.FindAsync(id);
         }
-        public async Task AddCar(Car car)
+        public async Task AddCarAsync(Car car)
         {
+            car.CarReady = true;
             _context.Car.Add(car);
             await _context.SaveChanges();
         }
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChanges();
         }

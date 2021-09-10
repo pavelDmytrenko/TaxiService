@@ -10,6 +10,12 @@ namespace TaxiService.DataLayer
         {
             Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Car>()
+                .Property(b => b.CarReady)
+                .HasDefaultValue(true);
+        }
 
         public DbSet<Car> Car { get; set; }
         public DbSet<Order> Order { get; set; }

@@ -1,24 +1,19 @@
 ﻿using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaxiService.BusinessLayer;
 using TaxiService.DataLayer;
 using Xunit;
-using static TaxiService.BusinessLayer.OrderService;
+using TaxiService;
 
 namespace TaxiService.BusinessLayerTest
 {
     public class OrderServiceTest
     {
-        public enum OrderStatus
+        private Task<List<Order>> GetListOrderAsync()
         {
-            InProgress = 1,
-            Waiting = 2,
-            Done = 3
-        };
-        private List<Order> GetTestOrders()
-        {
-        var orders = new List<Order>
+            return Task.Run(() => new List<Order>
             {
                 new Order {OrderDate = Convert.ToDateTime("13/08/2021 10:00"),
                                    OrderComplateDate = Convert.ToDateTime("13/08/2021 11:00"),
@@ -106,25 +101,11 @@ namespace TaxiService.BusinessLayerTest
                     CarDriverFIO = "John Do"
                 }
             }
-            };
-            return orders;
+            });
         }
-        private List<Order> GetTestWaitngOrders()
+        private Task<List<Car>> GetListCarAsync()
         {
-            var orders = new List<Order>
-            {
-            new Order
-            {
-                OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
-                OrderAddressSource = "Simi Prakhovykh, 54",
-                OrderAddressDestination = "Kudryashova, 14-B",
-                OrderStatus = ((int)OrderStatus.Waiting)
-            }};
-            return orders;
-        }
-        private List<Car> GetTestCars()
-        {
-            var cars = new List<Car>
+            return Task.Run(() => new List<Car>
             {
                 new Car
                                    {
@@ -162,26 +143,41 @@ namespace TaxiService.BusinessLayerTest
                     CarModel = "Tesla",
                     CarDriverFIO = "John Do"
                 }
-            };
+            });
+        }
+        public async Task<List<Order>> GetTestOrders()
+        {
+            List<Order> orders = await GetListOrderAsync();
+            return orders;
+        }
+
+        private List<Order> GetTestWaitngOrders()
+        {
+            var orders = new List<Order>
+            {
+            new Order
+            {
+                OrderDate = Convert.ToDateTime("13/08/2021 11:00"),
+                OrderAddressSource = "Simi Prakhovykh, 54",
+                OrderAddressDestination = "Kudryashova, 14-B",
+                OrderStatus = ((int)OrderStatus.Waiting)
+            }};
+            return orders;
+        }
+       private async Task<List<Car>> GetTestCars()
+        {
+            List<Car> cars = await GetListCarAsync();
             return cars;
         }
         [Fact]
-        public void OrderServiceTestCountOrders()
+        public async void OrderServiceTestCountOrders()
         {
             var mockOrder = new Mock<IOrderRepository>();
             var mockCar = new Mock<ICarRepository>();
-            mockOrder.Setup(p => p.GetOrder()).Returns(GetTestOrders());
-            mockCar.Setup(p => p.GetCars()).Returns(GetTestCars());
-            Assert.Equal(7, new OrderService(mockOrder.Object, mockCar.Object).GetOrders().Count);
-        }
-        [Fact]
-        public void OrderServiceTestCountWaitingOrders()
-        {
-            var mockOrder = new Mock<IOrderRepository>();
-            var mockCar = new Mock<ICarRepository>();
-            mockOrder.Setup(p => p.GetWaitingOrder()).Returns(GetTestWaitngOrders());
-            mockCar.Setup(p => p.GetCars()).Returns(GetTestCars());
-            Assert.Equal(1, new OrderService(mockOrder.Object, mockCar.Object).GetWaitingOrders().Count);
+            mockOrder.Setup(p => p.GetOrderAsync()).Returns(GetTestOrders());
+            mockCar.Setup(p => p.GetAllCarsAsync()).Returns(GetTestCars());
+            var order = await new OrderService(mockOrder.Object, mockCar.Object).GetOrdersAsync();
+            Assert.Equal(7, order.Count);
         }
     }
 }

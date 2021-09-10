@@ -1,6 +1,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaxiService.BusinessLayer;
 using TaxiService.DataLayer;
 using TaxiService.DataLayerTest;
@@ -10,9 +11,9 @@ namespace TaxiService.BusinessLayerTest
 {
     public class CarServiceTest
     {
-        private List<Car> GetTestCars()
+        private Task<List<Car>> GetListAsync()
         {
-            var cars = new List<Car>
+            return Task.Run(() => new List<Car>
             {
                 new Car
                                    {
@@ -50,29 +51,20 @@ namespace TaxiService.BusinessLayerTest
                     CarModel = "Tesla",
                     CarDriverFIO = "John Do"
                 }
-            };
+            });
+        }
+        public async Task<List<Car>> GetTestCars()
+        {
+            List<Car> cars = await GetListAsync();
             return cars;
         }
         [Fact]
-        public void BusinessLogicTestCountCars()
+        public async void BusinessLogicTestCountCars()
         {
             var mock = new Mock<ICarRepository>();
-            mock.Setup(p => p.GetCars()).Returns(GetTestCars());
-            Assert.Equal(6, new CarService(mock.Object).GetAllCars().Count);
-        }
-        [Fact]
-        public void BusinessLogicTestCountFreeCars()
-        {
-            var mock = new Mock<ICarRepository>();
-            mock.Setup(p => p.GetFreeCars()).Returns(GetTestCars());
-            Assert.Equal(6, new CarService(mock.Object).GetFreeCars().Count);
-        }
-        [Fact]
-        public void BusinessLogicTestCountNotFreeCars()
-        {
-            var mock = new Mock<ICarRepository>();
-            mock.Setup(p => p.GetNotFreeCars()).Returns(GetTestCars());
-            Assert.Equal(6, new CarService(mock.Object).GetNotFreeCars().Count);
+            mock.Setup(p => p.GetAllCarsAsync()).Returns(GetTestCars());
+            List<Car> car = await new CarService(mock.Object).GetAllCarsAsync();
+            Assert.Equal(6, car.Count);
         }
     }
 }

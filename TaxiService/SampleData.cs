@@ -8,12 +8,6 @@ namespace TaxiService
 {
     public static class SampleData
     {
-        public enum OrderStatus
-        {
-            InProgress = 1,
-            Waiting = 2,
-            Done = 3
-        };
         public static void Initialize(TaxiContext context)
         {
             if (!context.Order.Any())
@@ -30,7 +24,8 @@ namespace TaxiService
                                    {
                                        CarNumber = "Car1",
                                        CarModel = "Tesla",
-                                       CarDriverFIO = "John Do"
+                                       CarDriverFIO = "John Do",
+                                       CarReady = true
                                    }
                                },
                                new Order
@@ -44,7 +39,8 @@ namespace TaxiService
                                    {
                                        CarNumber = "Car2",
                                        CarModel = "Renault",
-                                       CarDriverFIO = "Carl Jo"
+                                       CarDriverFIO = "Carl Jo",
+                                       CarReady = true
                                    }
                                },
                                new Order
@@ -58,7 +54,8 @@ namespace TaxiService
                                    {
                                        CarNumber = "Car3",
                                        CarModel = "Maclaren",
-                                       CarDriverFIO = "Lewis Ham"
+                                       CarDriverFIO = "Lewis Ham",
+                                       CarReady = true
                                    }
                                },
                                new Order
@@ -78,7 +75,8 @@ namespace TaxiService
                                    {
                                        CarNumber = "Car4",
                                        CarModel = "Ferrary",
-                                       CarDriverFIO = "Fernando Alonso"
+                                       CarDriverFIO = "Fernando Alonso",
+                                       CarReady = false
                                    }
                                },
                                new Order
@@ -91,7 +89,8 @@ namespace TaxiService
                                    {
                                        CarNumber = "Car5",
                                        CarModel = "Volvo",
-                                       CarDriverFIO = "Seb Vettel"
+                                       CarDriverFIO = "Seb Vettel",
+                                       CarReady = false
                                    }
                                }
                            );
@@ -100,13 +99,15 @@ namespace TaxiService
                                {
                                    CarNumber = "Car6",
                                    CarModel = "Kia",
-                                   CarDriverFIO = "Ivanov Ivan"
+                                   CarDriverFIO = "Ivanov Ivan",
+                                   CarReady = true
                                },
                                new Car
                                {
                                    CarNumber = "Car7",
                                    CarModel = "Fiat",
-                                   CarDriverFIO = "Petrov Kiril"
+                                   CarDriverFIO = "Petrov Kiril",
+                                   CarReady = true
                                }
                            );
                            context.SaveChanges();

@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiService", "TaxiService\TaxiService.csproj", "{22CF0A3C-FA64-4B6D-91E8-910A9F885404}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3347FF7A-8A09-4C63-A556-3975DD7BEA67} = {3347FF7A-8A09-4C63-A556-3975DD7BEA67}
+		{1BC8E59F-DC15-4CE7-81D8-B5F4AB89A4ED} = {1BC8E59F-DC15-4CE7-81D8-B5F4AB89A4ED}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiService.DataLayer", "TaxiService.DataLayer\TaxiService.DataLayer.csproj", "{55C6E7E7-C9B7-438B-B272-3D33EA42B0BC}"
 EndProject
@@ -13,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiService.DataLayerTest",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiService.BusinessLayer", "TaxiService.BusinessLayer\TaxiService.BusinessLayer.csproj", "{FB606AC2-31B0-47BD-B643-280D9FC6180E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiService.BusinessLayerTest", "TaxiService.BusinessLayerTest\TaxiService.BusinessLayerTest.csproj", "{3347FF7A-8A09-4C63-A556-3975DD7BEA67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiService.BusinessLayerTest", "TaxiService.BusinessLayerTest\TaxiService.BusinessLayerTest.csproj", "{3347FF7A-8A09-4C63-A556-3975DD7BEA67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

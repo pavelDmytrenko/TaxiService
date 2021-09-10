@@ -8,12 +8,13 @@ namespace TaxiService.DataLayer
 {
     public interface IOrderRepository
     {
-        List<Order> GetWaitingOrder();
-        List<Order> GetOrder();
-        Task<Order> GetOrderById(int? id);
-        Task AddOrder(Order order);
-        Task DelOrder(Order order);
-        Task SaveChanges();
+        IQueryable<Order> Orders { get ; }
+        IQueryable<Car> Cars { get; }
+        Task<List<Order>> GetOrderAsync();
+        Task<Order> GetOrderByIdAsync(int? id);
+        Task AddOrderAsync(Order order);
+        Task DelOrderAsync(Order order);
+        Task SaveChangesAsync();
 
     }
 }

@@ -23,11 +23,12 @@ namespace TaxiService.Pages
             _carService = carService;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            CarNotFree = _carService.GetNotFreeCars();
-            CarFree= _carService.GetFreeCars();
-            Order = _orderService.GetWaitingOrders();
+            CarNotFree = await _carService.GetNotFreeCarsAsync();
+            CarFree= await _carService.GetFreeCarsAsync();
+            Order = await _orderService.GetWaitingOrdersAsync();
+            return Page();
         }
     }
 }

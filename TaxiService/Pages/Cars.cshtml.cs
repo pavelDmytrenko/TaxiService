@@ -18,9 +18,10 @@ namespace TaxiService.Pages
         {
             _carService = carService;
         }
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Car = _carService.GetAllCars();
+            Car = await _carService.GetAllCarsAsync();
+            return Page();
         }
     }
 }

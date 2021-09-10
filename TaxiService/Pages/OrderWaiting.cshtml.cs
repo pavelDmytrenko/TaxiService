@@ -30,20 +30,20 @@ namespace TaxiService.Pages
             return NotFound();
             }
 
-            Order = await _orderService.GetOrder(id);
-            Car = _carService.GetFreeCars();
+            Order = await _orderService.GetOrderAsync(id);
+            Car = await _carService.GetFreeCarsAsync();
 
             return Page();
         }
         public async Task<IActionResult> OnPostSubmit(int carselectedID)
         {
-            await _orderService.AddOrder(Order, carselectedID);
+            await _orderService.AddOrderAsync(Order, carselectedID);
             return RedirectToPage("Orders");
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            await _orderService.DelOrder(Order);
+            await _orderService.DelOrderAsync(Order);
             return RedirectToPage("Orders");
         }
 

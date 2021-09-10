@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TaxiService.DataLayer;
 
@@ -9,61 +11,61 @@ namespace TaxiService.BusinessLayer
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ICarRepository _carRepository;
-        public enum OrderStatus
-        {
-            InProgress = 1,
-            Waitnig = 2,
-            Done = 3
-        }
+
         public OrderService(IOrderRepository orderRepository, ICarRepository carRepository)
         {
             _orderRepository = orderRepository;
             _carRepository = carRepository;
         }
 
-        public async Task<Order> GetOrder(int? id)
+        public async Task<Order> GetOrderAsync(int? id)
         {
-            return await _orderRepository.GetOrderById(id); 
+            return await _orderRepository.GetOrderByIdAsync(id); 
         }
 
-        public List<Order> GetOrders()
+        public async Task<List<Order>> GetOrdersAsync()
         {
-            return _orderRepository.GetOrder();
+            return await _orderRepository.GetOrderAsync();
         }
-        public List<Order> GetWaitingOrders()
+        public async Task<List<Order>> GetWaitingOrdersAsync()
         {
-            return _orderRepository.GetWaitingOrder();
+            return await _orderRepository.Orders.Where(o => o.OrderStatus == ((int)OrderStatus.Waiting)).ToListAsync();
         }
 
-        public async Task AddOrder(Order order)
+        public async Task AddOrderAsync(Order order)
         {
             if (order.OrderId == 0)
             {
-                order.OrderStatus = ((int)OrderStatus.Waitnig);
-                await _orderRepository.AddOrder(order);
+                order.OrderStatus = ((int)OrderStatus.Waiting);
+                await _orderRepository.AddOrderAsync(order);
             }
             else if (order.OrderId > 0)
             {
-                var orderEntity = await _orderRepository.GetOrderById(order.OrderId);
+                var orderEntity = await _orderRepository.GetOrderByIdAsync(order.OrderId);
                 orderEntity.OrderComplateDate = order.OrderComplateDate;
                 orderEntity.OrderStatus = ((int)OrderStatus.Done);
-                await _orderRepository.SaveChanges();
+                List<Car> carEntity = await _orderRepository.Orders.Where(o => o.OrderId == order.OrderId)
+                                                                    .Join(_orderRepository.Cars, o => o.Car.CarID, c => c.CarID, (o, c) => o.Car)
+                                                                    .ToListAsync();
+                carEntity.First().CarReady = true;
+                await _orderRepository.SaveChangesAsync();
             }
         }
-        public async Task AddOrder(Order order, int carselectedID)
+        public async Task AddOrderAsync(Order order, int carselectedID)
         {
-            var carEntity = await _carRepository.GetCarById(carselectedID);
-            var orderEntity = await _orderRepository.GetOrderById(order.OrderId);
+            var carEntity = await _carRepository.GetCarByIdAsync(carselectedID);
+            var orderEntity = await _orderRepository.GetOrderByIdAsync(order.OrderId);
             orderEntity.Car = carEntity;
+            orderEntity.Car.CarReady = false;
             orderEntity.OrderStatus = ((int)OrderStatus.InProgress);
-            await _orderRepository.SaveChanges();
+            await _orderRepository.SaveChangesAsync();
         }
-        public async Task DelOrder(Order order)
+        public async Task DelOrderAsync(Order order)
         {
-            var orderEntityDel = await _orderRepository.GetOrderById(order.OrderId);
+            var orderEntityDel = await _orderRepository.GetOrderByIdAsync(order.OrderId);
             if (orderEntityDel != null)
             {
-                await _orderRepository.DelOrder(orderEntityDel);
+                await _orderRepository.DelOrderAsync(orderEntityDel);
             }
         }
     }

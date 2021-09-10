@@ -13,5 +13,6 @@ namespace TaxiService.DataLayer
         public string CarNumber { get; set; }
         public string CarModel { get; set; }
         public string CarDriverFIO { get; set; }
+        public bool CarReady { get; set; }
     }
 }

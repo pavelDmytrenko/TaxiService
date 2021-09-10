@@ -10,12 +10,12 @@ namespace TaxiService.BusinessLayer
 {
     public interface IOrderService
     {
-        Task<Order> GetOrder(int? id);
-        List<Order> GetOrders();
-        List<Order> GetWaitingOrders();
-        Task AddOrder(Order order);
-        Task AddOrder(Order order, int carselectedID);
-        Task DelOrder(Order order);
+        Task<Order> GetOrderAsync(int? id);
+        Task<List<Order>> GetOrdersAsync();
+        Task<List<Order>> GetWaitingOrdersAsync();
+        Task AddOrderAsync(Order order);
+        Task AddOrderAsync(Order order, int carselectedID);
+        Task DelOrderAsync(Order order);
 
 
     }

@@ -25,13 +25,13 @@ namespace TaxiService.Pages
             {
                 return NotFound();
             }
-            Order = await _orderService.GetOrder(id);
+            Order = await _orderService.GetOrderAsync(id);
 
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            await _orderService.AddOrder(Order);
+            await _orderService.AddOrderAsync(Order);
             return RedirectToPage("Orders");
 
         }
