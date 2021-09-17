@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaxiService.BusinessLayer\TaxiService.BusinessLayer.csproj" />
-    <ProjectReference Include="..\TaxiService.DataLayerTest\TaxiService.DataLayerTest.csproj" />
   </ItemGroup>
 
 </Project>
